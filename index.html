@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jpg</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #c0622a;
+      --orange-light: #d4763a;
+      --orange-glow: rgba(192, 98, 42, 0.35);
+      --black: #080808;
+      --card-bg: rgba(14, 13, 13, 0.82);
+      --card-border: rgba(255,255,255,0.06);
+      --text-dim: rgba(200, 170, 150, 0.55);
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--black);
+      font-family: 'Space Mono', monospace;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* ── BACKGROUND IMAGE ── */
+    .bg {
+      position: fixed; inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: url('bck.png') center/cover no-repeat;
+    }
+
+    /* Dark overlay so card stays readable */
+    .bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+    }
+
+    /* ── LAYOUT ── */
+    .stage {
+      position: relative;
+      z-index: 10;
+      width: 100%; height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      width: min(420px, 90vw);
+      padding: 48px 40px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      backdrop-filter: blur(22px) saturate(0.6);
+      -webkit-backdrop-filter: blur(22px) saturate(0.6);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04),
+        0 30px 80px rgba(0,0,0,0.7),
+        0 0 60px rgba(192,98,42,0.08);
+      animation: cardIn 0.9s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── AVATAR ── */
+    .avatar-wrap {
+      position: relative;
+      width: 84px; height: 84px;
+      margin-bottom: 18px;
+      animation: cardIn 1s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .avatar-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: conic-gradient(var(--orange), transparent 60%, var(--orange-light));
+      opacity: 0.7;
+      animation: spin 6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .avatar {
+      position: relative;
+      z-index: 1;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #1a1a1a;
+      border: 2px solid var(--black);
+      /* placeholder silhouette */
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+
+    .avatar-placeholder {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #1c1c1c 0%, #2a2a2a 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      color: var(--orange);
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+    }
+
+    /* ── NAME ── */
+    .name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.55rem;
+      letter-spacing: 0.04em;
+      color: var(--orange-light);
+      margin-bottom: 6px;
+      animation: cardIn 1s 0.15s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    /* ── BIO / LOCATION ── */
+    .bio-text {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      text-transform: lowercase;
+      margin-bottom: 18px;
+      animation: cardIn 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: var(--orange);
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      animation: cardIn 1s 0.25s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .location svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--card-border), transparent);
+      margin: 20px 0;
+    }
+
+    /* ── LINKS ── */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 13px 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      color: rgba(220,200,185,0.75);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      animation: cardIn 1s both;
+    }
+
+    .link-btn:nth-child(1) { animation-delay: 0.3s; }
+    .link-btn:nth-child(2) { animation-delay: 0.37s; }
+    .link-btn:nth-child(3) { animation-delay: 0.44s; }
+    .link-btn:nth-child(4) { animation-delay: 0.51s; }
+    .link-btn:nth-child(5) { animation-delay: 0.58s; }
+
+    .link-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--orange-glow), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .link-btn:hover {
+      background: rgba(192,98,42,0.1);
+      border-color: rgba(192,98,42,0.35);
+      color: #fff;
+      transform: translateX(3px);
+    }
+
+    .link-btn:hover::after { opacity: 1; }
+
+    .link-icon {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      background: rgba(192,98,42,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      position: relative; z-index: 1;
+    }
+
+    .link-icon svg { width: 15px; height: 15px; }
+
+    .link-label {
+      position: relative; z-index: 1;
+      flex: 1;
+    }
+
+    .link-arrow {
+      position: relative; z-index: 1;
+      opacity: 0.3;
+      font-size: 0.65rem;
+      transition: opacity 0.2s;
+    }
+
+    .link-btn:hover .link-arrow { opacity: 0.7; }
+
+    /* ── GLOBE ICON (standalone) ── */
+    .globe-row {
+      margin-top: 14px;
+      animation: cardIn 1s 0.6s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .globe-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--orange);
+      opacity: 0.8;
+      transition: opacity 0.2s, transform 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .globe-btn:hover { opacity: 1; transform: scale(1.15) rotate(15deg); }
+    .globe-btn svg { width: 22px; height: 22px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      position: fixed;
+      bottom: 18px; right: 22px;
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.1em;
+      z-index: 20;
+    }
+
+    /* scrollbar hidden */
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg"></div>
+
+<!-- Card -->
+<div class="stage">
+  <div class="card">
+
+    <!-- Avatar -->
+    <div class="avatar-wrap">
+      <div class="avatar">
+        <img src="oxy.png" alt="jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
+      </div>
+    </div>
+
+    <!-- Name -->
+    <div class="name">jpg</div>
+
+    <!-- Bio -->
+    <div class="bio-text">arizona iced out boys</div>
+
+    <!-- Location -->
+    <div class="location">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+      de_mirage
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Social Links -->
+    <div class="links">
+
+      <a href="#" class="link-btn">
+        <div class="link-icon">
+          <!-- X / Twitter -->
+          <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--orange)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <span class="link-label">twitter / x</span>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a href="#" class="link-btn">
+        <div class="link-icon">
+          <!-- Instagram -->
+          <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--orange)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </div>
+        <span class="link-label">instagram</span>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a href="#" class="link-btn">
+        <div class="link-icon">
+          <!-- TikTok -->
+          <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--orange)"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+        </div>
+        <span class="link-label">tiktok</span>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a href="#" class="link-btn">
+        <div class="link-icon">
+          <!-- YouTube -->
+          <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--orange)"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </div>
+        <span class="link-label">youtube</span>
+        <span class="link-arrow">→</span>
+      </a>
+
+    </div>
+
+    <!-- Globe -->
+    <div class="globe-row">
+      <button class="globe-btn" title="website">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">made with ♥</div>
+
+
+</body>
+</html>

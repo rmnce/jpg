@@ -3,45 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Dark City Glassmorphism</title>
     <style>
-        /* Flexbox centers the container vertically and horizontally */
         body, html {
             height: 100%;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            /* City Skyline Background */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://t4.ftcdn.net/jpg/00/69/81/47/360_F_69814798_TutTakE1O2fM9PMYnYIuR8B0zc6AA7JT.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
         }
 
         .container {
             text-align: center;
+            padding: 3rem;
+            /* Dark Glass Effect (Black/Grey tint) */
+            background: rgba(20, 20, 20, 0.6); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            
+            /* Sharp Dark Borders */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-weight: 200;
+            letter-spacing: 4px;
+            font-size: 2.2rem;
+            text-transform: uppercase;
         }
 
         .button-group {
             display: flex;
-            gap: 15px; /* Spacing between buttons */
+            gap: 15px;
             justify-content: center;
+            margin-top: 2rem;
         }
 
-        /* Styling the anchor tags to look like buttons */
+        /* Grey Glass Buttons */
         .btn {
             display: inline-block;
             padding: 12px 24px;
-            font-size: 16px;
+            font-size: 13px;
             text-decoration: none;
-            color: white;
-            border-radius: 6px;
-            transition: background-color 0.2s ease;
+            color: rgba(255, 255, 255, 0.9);
+            border-radius: 4px; /* Squarer for a more industrial look */
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .btn-primary { background-color: #007bff; }
-        .btn-primary:hover { background-color: #0056b3; }
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
 
-        .btn-secondary { background-color: #6c757d; }
-        .btn-secondary:hover { background-color: #5a6268; }
+        /* Subtle grey highlight for primary */
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -49,9 +85,8 @@
     <div class="container">
         <h1>Welcome</h1>
         <div class="button-group">
-            <!-- Internal links point to other .html files in your directory -->
-            <a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>
-            <a href="profile.html" class="btn btn-secondary">View Profile</a>
+            <a href="dashboard.html" class="btn btn-primary">Dashboard</a>
+            <a href="profile.html" class="btn">Profile</a>
         </div>
     </div>
 
